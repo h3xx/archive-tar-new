@@ -20,14 +20,18 @@ use_ok( $FileClass );
 	my $tar = $Class->new;
 	isa_ok( $tar, $Class,       "   Object" );
 	ok( open my $fh, '>', 'white_space   ' );
-	ok( $tar->add_files( 'white_space   ', '' ),
-				    "   Add file <white_space   > containing filename with trailing whitespace");
-	unlink 'white_space   ';
-	ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
   SKIP: {
-    skip "Windows tries to be clever", 1 if $^O eq 'MSWin32';
-	  ok( ! -e 'white_space',     "	<white_space> should not exist" );
+		if ($^O eq 'MSWin32') {
+			if (! -f 'white_space   ') {
+				skip "Windows tries to be clever", 1
+			}
+		}
+		ok( $tar->add_files( 'white_space   ' ),
+			"   Add file <white_space   > containing filename with trailing whitespace");
+		unlink 'white_space   ';
+		ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
+		ok( ! -e 'white_space',     "	<white_space> should not exist" );
+		ok( -e 'white_space   ',    "	<white_space   > should exist" );
+		unlink foreach ('white_space   ', 'white_space');
   }
-	ok( -e 'white_space   ',    "	<white_space   > should exist" );
-	unlink foreach ('white_space   ', 'white_space');
 }
