@@ -9,6 +9,24 @@ on:
   pull_request:
 
 jobs:
+  ubuntu:
+    env:
+      PERL_USE_UNSAFE_INC: 0
+      AUTHOR_TESTING: 1
+      AUTOMATED_TESTING: 1
+      RELEASE_TESTING: 1
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: perl -V
+        run: perl -V
+      - name: Makefile.PL
+        run: perl -I$(pwd) Makefile.PL
+      - name: make test
+        run: make test
+
   windows:
     env:
       PERL_USE_UNSAFE_INC: 0
