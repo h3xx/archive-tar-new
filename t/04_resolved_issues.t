@@ -29,7 +29,7 @@ use_ok( $FileClass );
 		}
 		ok( $tar->add_files( 'white_space   ' ),
 			"   Add file <white_space   > containing filename with trailing whitespace");
-		unlink 'white_space   ';
+		ok( unlink 'white_space   ' );
 		ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
 		ok( ! -e 'white_space',     "	<white_space> should not exist" );
 		ok( -e 'white_space   ',    "	<white_space   > should exist" );
