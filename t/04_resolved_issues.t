@@ -2,6 +2,7 @@ BEGIN { chdir 't' if -d 't' }
 
 use Test::More      'no_plan';
 use File::Basename  'basename';
+require IO::File;
 use strict;
 use lib '../lib';
 
@@ -19,8 +20,8 @@ use_ok( $FileClass );
   ok( 1,                      "Testing bug 103279" );
 	my $tar = $Class->new;
 	isa_ok( $tar, $Class,       "   Object" );
-	ok( open my $fh, '>', 'white_space   ' );
-  SKIP: {
+	ok( my $fh = IO::File->new( 'white_space   ', 'w' ) );
+	SKIP: {
 		if ($^O eq 'MSWin32') {
 			if (! -f 'white_space   ') {
 				skip "Windows tries to be clever", 1
