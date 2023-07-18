@@ -23,7 +23,7 @@ use_ok( $FileClass );
 	ok( my $fh = IO::File->new( 'white_space   ', 'w' ) );
 	SKIP: {
 		if ($^O eq 'MSWin32') {
-			if (! -f 'white_space   ') {
+			if (! IO::File->new( 'white_space   ', 'r' ) ) {
 				skip "Windows tries to be clever", 1
 			}
 		}
