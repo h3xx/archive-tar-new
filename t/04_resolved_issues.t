@@ -20,19 +20,15 @@ use_ok( $FileClass );
   ok( 1,                      "Testing bug 103279" );
 	my $tar = $Class->new;
 	isa_ok( $tar, $Class,       "   Object" );
-	ok( my $fh = IO::File->new( 'white_space   ', 'w' ) );
-	SKIP: {
-		if ($^O eq 'MSWin32') {
-			if (! IO::File->new( 'white_space   ', 'r' ) ) {
-				skip "Windows tries to be clever", 1
-			}
-		}
-		ok( $tar->add_files( 'white_space   ' ),
-			"   Add file <white_space   > containing filename with trailing whitespace");
-		ok( unlink 'white_space   ' );
-		ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
-		ok( ! -e 'white_space',     "	<white_space> should not exist" );
-		ok( -e 'white_space   ',    "	<white_space   > should exist" );
-		unlink foreach ('white_space   ', 'white_space');
+	ok( open my $fh, '>', 'white_space   ' );
+	ok( $tar->add_files( 'white_space   ', '' ),
+				    "   Add file <white_space   > containing filename with trailing whitespace");
+	unlink 'white_space   ';
+	ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
+  SKIP: {
+    skip "Windows tries to be clever", 1 if $^O eq 'MSWin32';
+	  ok( ! -e 'white_space',     "	<white_space> should not exist" );
   }
+	ok( -e 'white_space   ',    "	<white_space   > should exist" );
+	unlink foreach ('white_space   ', 'white_space');
 }
