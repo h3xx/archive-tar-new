@@ -21,8 +21,8 @@ SKIP: {
 	isa_ok( $tar, $Class,       "   Object" );
 	ok( open my $fh, '>', 'white_space   ' );
 	ok( close $fh );
-	if (! -e 'white_space  ') {
-		skip 'Windows tries to be clever', 1 if $^O eq 'MSWin32';
+	if (! -e 'white_space  ' && $^O eq 'MSWin32') {
+		skip 'Windows tries to be clever', 1;
 	}
 	ok( $tar->add_files( 'white_space   ', '' ),
 				    "   Add file <white_space   > containing filename with trailing whitespace");
