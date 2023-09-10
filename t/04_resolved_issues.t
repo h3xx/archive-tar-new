@@ -24,7 +24,7 @@ SKIP: {
 	if (-e 'white_space' && $^O eq 'MSWin32') {
 		skip 'Windows tries to be clever', 1;
 	}
-	ok( $tar->add_files( 'white_space   ', '' ),
+	ok( $tar->add_files( 'white_space   ' ),
 				    "   Add file <white_space   > containing filename with trailing whitespace");
 	ok( unlink 'white_space   ' );
 	ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
