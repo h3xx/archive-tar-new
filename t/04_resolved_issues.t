@@ -2,7 +2,6 @@ BEGIN { chdir 't' if -d 't' }
 
 use Test::More      'no_plan';
 use File::Basename  'basename';
-require IO::File;
 use strict;
 use lib '../lib';
 
@@ -23,7 +22,7 @@ use_ok( $FileClass );
 	ok( open my $fh, '>', 'white_space   ' );
 	ok( $tar->add_files( 'white_space   ', '' ),
 				    "   Add file <white_space   > containing filename with trailing whitespace");
-	unlink 'white_space   ';
+	ok( unlink 'white_space   ' );
 	ok( $tar->extract(),        "	Extract filename with trailing whitespace" );
   SKIP: {
     skip "Windows tries to be clever", 1 if $^O eq 'MSWin32';
