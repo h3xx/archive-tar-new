@@ -21,7 +21,7 @@ SKIP: {
 	isa_ok( $tar, $Class,       "   Object" );
 	ok( open my $fh, '>', 'white_space   ' );
 	ok( close $fh );
-	if (! -e 'white_space  ' && $^O eq 'MSWin32') {
+	if (-e 'white_space' && $^O eq 'MSWin32') {
 		skip 'Windows tries to be clever', 1;
 	}
 	ok( $tar->add_files( 'white_space   ', '' ),
